@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://xmlns.jcp.org/jsf/passthrough" data-ng-app="app">
+
+<head>
+<title>Welcome</title>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/sb-admin.css" />
+<link rel="stylesheet" type="text/css" href="resources/font-awesome-4.2.0/css/font-awesome.css" />
+<!-- <link rel="stylesheet" type="text/css" href="resources/css/dataTables.bootstrap.css" /> -->
+<link rel="stylesheet" type="text/css" href="resources/css/main.css" />
+
+<!-- todo: move these to the bottom of the page and use ng-cloak thing ng-cloak is added check generated source	 -->
+<script src="resources/js/jquery-1.10.2.js"></script>
+<script src="resources/js/angular/angular.js"></script> 
+<script src="resources/js/angular/angular-route.min.js"></script>
+<script src="resources/js/plugins/angular-route-segment/route-segment.js"></script>
+<script src="resources/js/plugins/angular-route-segment/view-segment.js"></script> 
+
+<script src="resources/js/angular/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<script src="resources/js/angular/angular-resource.min.js"></script> 
+<script src="resources/js/bootstrap.min.js"></script> 
+<script src="resources/js/sb-admin.js"></script>
+<script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!--drag and drop -->
+<script src="resources/js/plugins/draganddrop/draganddrop.js"></script>
+
+<!-- file upload -->
+<script src="resources/js/plugins/angular-file-upload/angular-file-upload.min.js"></script>
+
+<!-- ng-tables -->
+<script src="resources/js/plugins/ng-table/ng-table.min.js"></script> 
+<script src="resources/js/plugins/stickyTableHeaders/jquery.stickytableheaders.js" ></script>
+
+<!-- datatables -->
+<!-- <script src="resources/js/plugins/dataTables/jquery.dataTables.js" />
+<script src="resources/js/plugins/dataTables/dataTables.bootstrap.js" /> -->
+
+<!-- textAngular wysiwyg -->
+<script src="resources/js/plugins/textAngular/textAngular.min.js"></script> 
+<script src="resources/js/plugins/textAngular/textAngular-sanitize.min.js"></script>
+
+<!-- charts -->
+<script src="resources/js/plugins/charts/ng-google-chart.js"></script>
+
+<!-- application libs -->
+<script src="resources/js/app.js"></script>
+<script src="services/RequestService.js"></script>
+
+<script src="controllers/DashboardController.js"></script> 
+<script src="controllers/AddAssetController.js" ></script>
+<script src="controllers/CreateCenterController.js"></script> 
+<script src="controllers/CreateUserController.js"></script>
+
+<!-- player menus -->
+
+<!-- freshdesk widget -->
+<script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
+<script type="text/javascript">
+	FreshWidget
+			.init(
+					"",
+					{
+						"queryString" : "&amp;widgetType=popup&amp;searchArea=no",
+						"backgroundImage" : "https://s3.amazonaws.com/assets.freshdesk.com/widget/help-button.png",
+						"widgetType" : "popup",
+						"buttonType" : "text",
+						"buttonText" : "Contact",
+						"buttonColor" : "white",
+						"buttonBg" : "#006063",
+						"alignment" : "2",
+						"offset" : "250px",
+						"formHeight" : "500px",
+						"url" : "https://ssms.freshdesk.com"
+					});
+</script>
+</head>
+<body>
+	<input id="context_path" type="hidden" value='#{request.scheme}://#{request.serverName}:#{request.serverPort}' />
+	<!-- todo: read bootstrap css docs make sure meta names are correct -->
+
+	<!-- Sidebar -->
+	<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#/"><img alt="SSMS" src="https://ssms.co.za/img/logonomerge.png"
+				style="height: 47px" /></a>
+		</div>
+		<!-- /.navbar-header -->
+
+		<div id="outer" data-ng-controller="PlayerSearchBarController">
+			<script type="text/javascript">
+				<!-- populating the player typeahead before page is sent to client -->
+				window.onload = function() {
+					var scope = angular.element($("#outer")).scope();
+				    scope.$apply(function(){
+						scope.players = ${playerBean.currentPlayers};
+						if (scope.players.length == 0) {
+							scope.placeHolderText = 'No players created yet';
+						} else {
+							scope.placeHolderText = 'Search Player';
+						}
+				    })
+				};	
+			</script>
+			<ul class="nav navbar-top-links navbar-left">
+				<li>
+					<button type="button" data-ng-click="showDashboard()" class="btn btn-sm btn-primary" title="Dashboard"
+						aria-label="Dashboard">
+						<span class="fa fa-dashboard fa-2x" aria-hidden="true"></span>
+					</button>
+				</li>
+				<li>
+					<div class="input-group menu-bar-search">
+						<input type="text" class="form-control input-sm " required="required" data-ng-model="player"
+							data-ng-enter="loadPlayerPage()" data-typeahead-editable="false"
+							data-typeahead="player as player.name for player in players | filter:{name:$viewValue}"
+							placeholder="{{placeHolderText}}" /> <span class="input-group-btn">
+							<button class="btn btn-sm btn-default" type="button" data-ng-click="loadPlayerPage()">
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<ul class="nav navbar-top-links navbar-right">
+	
+			<!-- /.dropdown-alerts -->
+			<!-- /.dropdown -->
+			<li class="dropdown"><a id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown"> <i
+					class="fa fa-user fa-fw"></i> ${user.firstName} <i class="fa fa-caret-down"></i>
+			</a>
+				<ul class="dropdown-menu dropdown-user">
+					<!-- <li><a href="#/profile"><i class="fa fa-user fa-fw"></i> User Profile</a></li> -->
+					<li><a href="#/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+					<li><a href="#"><i class="fa fa-bar-chart fa-fw"></i> Club Stats</a></li>
+					<li><a href="#/costanalysis"><i class="fa fa-usd fa-fw"></i> Cost Analysis</a></li>
+					<li class="divider"></li>
+					<li><form jsf:id="logout">
+							<a href="login.html" jsf:action="#{user.logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						</form></li>
+				</ul> <!-- /.dropdown-user --></li>
+			<!-- /.dropdown -->
+		</ul>
+
+	</nav>
+	<div data-app-view-segment="1"></div>
+</body>
+</html>

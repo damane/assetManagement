@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<link href="http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css"
+	media="screen" rel="stylesheet"></link> -->
+	
+<!-- <html ng-app> -->
+<head>
+<link href="http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css"
+	media="screen" rel="stylesheet"></link>
+	<link href="http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css"
+	media="screen" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css" href="resources/css/sb-admin.css"></link>
+<link rel="stylesheet" type="text/css" href="resources/font-awesome-4.2.0/css/font-awesome.css"></link>
+<!-- <link rel="stylesheet" type="text/css" href="resources/css/dataTables.bootstrap.css" /> -->
+<link rel="stylesheet" type="text/css" href="resources/css/main.css"></link>
+<script src="http://yandex.st/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="http://yandex.st/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="http://yandex.st/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery-1.10.2.js"></script>
+<script src="resources/js/angular/angular.js"></script>
+<script src="resources/js/angular/angular-route.min.js"></script>
+<script
+	src="resources/js/plugins/angular-route-segment/route-segment.js"></script>
+<script src="resources/js/plugins/angular-route-segment/view-segment.js"></script>
+
+<script src="resources/js/angular/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<script src="resources/js/angular/angular-resource.min.js"></script>
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/sb-admin.js"></script>
+<script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="resources/js/plugins/textAngular/textAngular.min.js"></script>
+<script
+	src="resources/js/plugins/textAngular/textAngular-sanitize.min.js"></script>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Create User</h1>
+	</div>
+</div>
+</head>
+
+<body>
+	<div class="well">
+		<form class="form" role="form" data-ng-submit="createUser()">
+			<div class="row">
+				<div class="row col-md-7 col-md-offset-2">
+					<div class="row">
+						<div class="form-group">
+							<label for="duration" class="col-md-2 control-label">
+								Name </label>
+							<div class="col-md-5">
+								<div class="form-group">
+									<input id="name" name="name" required="required"
+										data-ng-model="name" class="form-control" maxlength="30"
+										type="text" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="duration" class="col-md-2 control-label">
+								Surname </label>
+							<div class="col-md-5">
+								<div class="form-group">
+									<input id="surname" name="surname" required="required"
+										data-ng-model="surname" class="form-control" maxlength="30"
+										type="text" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group ">
+							<label for="gender" class="col-md-2 control-label">Gender</label>
+							
+								<div class="col-md-5">
+								<select id="gender" required="required" data-ng-model="gender"
+									class="form-control">
+									<option value="" style="display: none"></option>
+									<ui:repeat value="${userBean.gender}" var="gender">
+										<option value="${gender.id}">${gender.name}</option>
+									</ui:repeat>
+								</select>
+							</div>
+							
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="form-group">
+							<label for="dateOfBirth" class="col-md-2 control-label">
+								Date of birth </label>
+							<div class="col-md-5">
+								<p class="input-group">
+									<input type="text" class="form-control"
+										data-datepicker-popup="{{format}}" data-ng-model="dateOfBirth"
+										data-is-open="dateOfBirthOpened"
+										data-datepicker-options="dateOptions"
+										data-date-disabled="disabled(date, mode)"
+										data-ng-required="true" data-close-text="Close" /> <span
+										class="input-group-btn">
+										<button class="btn btn-default"
+											data-ng-click="openDateOfBirth($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="duration" class="col-md-2 control-label">
+								Role </label>
+							<div class="col-md-5">
+								<div class="form-group">
+									<input id="role" name="role" required="required"
+										data-ng-model="role" class="form-control" maxlength="30"
+										type="text" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<h4 class="page-header tab-page-header">Longing Credentials
+							</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row">
+							<div class="form-group">
+								<label for="duration" class="col-md-3 control-label">
+									Email </label>
+								<div class="col-md-5">
+									<div class="form-group">
+										<input id="email" class="form-control" placeholder="username"
+											name="email" type="text" required="required"
+											data-ng-model="email" autofocus="autofocus" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<label for="duration" class="col-md-3 control-label">
+									Password </label>
+								<div class="col-md-5">
+									<div class="form-group">
+										<input id="password" class="form-control"
+											placeholder="password" name="password" type="password"
+											required="required" autofocus="autofocus" />
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group">
+								<label for="duration" class="col-md-3 control-label">
+									Re-enter Password </label>
+								<div class="col-md-5">
+									<div class="form-group">
+										<input id="rPassword" class="form-control"
+											placeholder="re-enter password" name="rPassword"
+											type="rPassword" required="required" autofocus="autofocus" />
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+					<div class="row col-md-4 col-md-offset-4">
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">Save</button>
+							<a class="cancel" data-ng-click="clearExposure()"
+								data-ng-confirm-click="Reset form, are you sure?"> Reset </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
